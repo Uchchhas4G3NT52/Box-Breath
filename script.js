@@ -1,5 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     const startBtn = document.getElementById('start-btn');
+    const stopBtn = document.getElementById('stop-btn'); // New Stop Button
+    
     const startScreen = document.getElementById('start-screen');
     const instructionScreen = document.getElementById('instruction-screen');
     const breathingScreen = document.getElementById('breathing-screen');
@@ -14,6 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentPhase = 0;
     let timeLeft = 4;
     let timerInterval;
+    let instructionTimeout; // Added to track the timeout
 
     const phases = [
         { text: "Inhale", action: "inhale", sound: audioInhale },
@@ -22,15 +25,14 @@ document.addEventListener('DOMContentLoaded', () => {
         { text: "Hold Empty", action: "hold-bottom", sound: null }
     ];
 
+    // START BUTTON LOGIC
     startBtn.addEventListener('click', () => {
-        // Hide start, show instructions
         startScreen.classList.remove('active');
         startScreen.classList.add('hidden');
         instructionScreen.classList.remove('hidden');
         instructionScreen.classList.add('active');
 
-        // Wait 6 seconds on instructions, then start breathing
-        setTimeout(() => {
+        instructionTimeout = setTimeout(() => {
             instructionScreen.classList.remove('active');
             instructionScreen.classList.add('hidden');
             breathingScreen.classList.remove('hidden');
@@ -40,28 +42,48 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 6000);
     });
 
+    // STOP BUTTON LOGIC
+    stopBtn.addEventListener('click', () => {
+        // 1. Stop the countdown timer
+        clearInterval(timerInterval);
+        
+        // 2. Stop and reset any playing audio
+        audioInhale.pause();
+        audioInhale.currentTime = 0;
+        audioExhale.pause();
+        audioExhale.currentTime = 0;
+        
+        // 3. Reset the phase and CSS animation classes
+        currentPhase = 0;
+        breathingBox.className = 'breathing-box'; 
+        phaseText.innerText = "Prepare...";
+        timerDisplay.innerText = "4";
+        
+        // 4. Hide Breathing Screen, Show Start Screen
+        breathingScreen.classList.remove('active');
+        breathingScreen.classList.add('hidden');
+        startScreen.classList.remove('hidden');
+        startScreen.classList.add('active');
+    });
+
     function startBreathingCycle() {
-        executePhase(); // Start first phase immediately
+        executePhase(); 
     }
 
     function executePhase() {
         const phase = phases[currentPhase];
         
-        // Update UI
         phaseText.innerText = phase.text;
         timeLeft = 4;
         timerDisplay.innerText = timeLeft;
         
-        // Handle CSS Animation
         breathingBox.className = 'breathing-box ' + phase.action;
 
-        // Play Sound if required
         if (phase.sound) {
-            phase.sound.currentTime = 0; // Reset audio to start
+            phase.sound.currentTime = 0; 
             phase.sound.play().catch(e => console.log("Audio play blocked by browser until interacted."));
         }
 
-        // 4-second countdown logic
         clearInterval(timerInterval);
         timerInterval = setInterval(() => {
             timeLeft--;
@@ -69,7 +91,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 timerDisplay.innerText = timeLeft;
             } else {
                 clearInterval(timerInterval);
-                // Move to next phase
                 currentPhase = (currentPhase + 1) % phases.length;
                 executePhase();
             }
