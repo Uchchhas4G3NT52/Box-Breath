@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Detective's Focus | Box Breathing</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Courier+Prime&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="case-file-container">
+        <div id="start-screen" class="screen active">
+            <h1>The Detective's Focus</h1>
+            <p class="typewriter">Clear your mind. The game is afoot.</p>
+            <button id="start-btn" class="brass-btn">Click to Begin</button>
+        </div>
+
+        <div id="instruction-screen" class="screen hidden">
+            <h2>The 4-4-4-4 Method</h2>
+            <ul class="vintage-list">
+                <li><strong>Inhale</strong> slowly for 4 seconds.</li>
+                <li><strong>Hold</strong> your breath for 4 seconds.</li>
+                <li><strong>Exhale</strong> steadily for 4 seconds.</li>
+                <li><strong>Hold</strong> your lungs empty for 4 seconds.</li>
+            </ul>
+            <p>Listen for the cues...</p>
+        </div>
+
+        <div id="breathing-screen" class="screen hidden">
+            <h2 id="phase-text">Prepare...</h2>
+            <div class="breathing-box">
+                <div id="inner-box"></div>
+            </div>
+            <div id="timer-display">4</div>
+        </div>
+    </div>
+
+    <audio id="audio-inhale" src="inhale.mp3"></audio>
+    <audio id="audio-exhale" src="exhale.mp3"></audio>
+
+    <script src="script.js"></script>
+</body>
+</html>
