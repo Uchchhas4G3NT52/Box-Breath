@@ -1,4 +1,4 @@
-Markdown
+
 # The Detective's Focus | Interactive Box Breathing
 
 A vintage, Sherlock Holmes-themed interactive web application designed to guide users through the **4-4-4-4 box breathing** relaxation technique. 
