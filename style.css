@@ -108,8 +108,17 @@ h1, h2 {
 }
 
 /* Phase Classes applied via JS */
-.inhale #inner-box { width: 100%; height: 100%; }
-.exhale #inner-box { width: 20%; height: 20%; }
+.inhale #inner-box, 
+.hold-top #inner-box { 
+    width: 100%; 
+    height: 100%; 
+}
+
+.exhale #inner-box, 
+.hold-bottom #inner-box { 
+    width: 20%; 
+    height: 20%; 
+}
 
 #timer-display {
     font-family: 'Courier Prime', monospace;
